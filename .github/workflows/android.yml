@@ -46,9 +46,6 @@ jobs:
     name: Linting
     runs-on: ubuntu-latest
     continue-on-error: true
-    defaults:
-      run:
-        working-directory: ./Android Test
     steps:
       # Checkout Repository
       - name: Checkout
