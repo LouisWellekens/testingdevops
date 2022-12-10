@@ -72,7 +72,7 @@ jobs:
         with:
           name: linter-report
           path: app/build/reports/lint-results-*
-          
+
   build_debug_apk:
     name: Building Debug APK
 #     needs: [emulator_test]
@@ -92,6 +92,8 @@ jobs:
           cache: gradle
 
       # Build Debug APK
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
       - name: Build Debug APK
         run: ./gradlew assembleDebug
 
