@@ -7,7 +7,6 @@ on:
 
 env:
   JAVA_VERSION: 11
-  
 
 jobs:
   build_release_apk:
