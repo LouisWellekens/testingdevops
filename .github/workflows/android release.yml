@@ -24,6 +24,10 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: 'adopt'
           cache: gradle
+    
+      # Permissions
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
 
       # Build Release APK
       - name: Build Release APK
