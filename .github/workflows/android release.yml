@@ -30,15 +30,16 @@ jobs:
        run: bash ./gradlew assembleDebug --stacktrace
 
        # Sign Release APK
-     - name: Sign Release APK
+      - name: Sign APK
         uses: r0adkll/sign-android-release@v1
+        # ID used to access action output
         id: sign_app
         with:
-          releaseDirectory: app/build/outputs/apk/release/
+          releaseDirectory: app/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.SIGNING_ALIAS }}
+          alias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
 
         #Upload APK
      - name: Upload APK
