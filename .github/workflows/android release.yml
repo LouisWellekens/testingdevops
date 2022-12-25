@@ -7,6 +7,7 @@ on:
 
 env:
   JAVA_VERSION: 11
+  FILENAME: Squads
 
 jobs:
   build_release_apk:
@@ -43,9 +44,13 @@ jobs:
           alias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
+       
+        # Rename Signed APK
+      - name: Rename Release APK
+        run: mv ${{steps.sign_app.outputs.signedReleaseFile}} ${{ env.FILENAME }}.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
-          name: apk
-          path: app/build/outputs/apk/debug/app-debug.apk 
+          name: ${{ env.FILENAME }}.apk
+          path: ${{ env.FILENAME }}.apk
