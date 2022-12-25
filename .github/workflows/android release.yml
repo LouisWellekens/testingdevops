@@ -10,7 +10,7 @@ jobs:
   apk:
    name: Generate APK
    runs-on: ubuntu-latest
-    steps:
+   steps:
       # Checkout Repository
       - name: Checkout Repository
         uses: actions/checkout@v2  
