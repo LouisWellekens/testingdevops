@@ -7,28 +7,28 @@ on:
 
 
 jobs:
- apk:
-  name: Generate APK
-  runs-on: ubuntu-latest
-  steps:
-    - name: Checkout
+  apk:
+   name: Generate APK
+   runs-on: ubuntu-latest
+   steps:
+     - name: Checkout
       uses: actions/checkout@v2.4.
     # Setup APK
-    - name: Setup JDK
+     - name: Setup JDK
       uses: actions/setup-java@v2.5.0
       with:
         distribution: adopt
         java-version: "11"
     
-   - name: Set execution flag for gradlew
+    - name: Set execution flag for gradlew
       run: chmod +x gradlew
       #BUILD APK
 
-    - name: Build APK
+     - name: Build APK
       run: bash ./gradlew assembleDebug --stacktrace
 
        # Sign Release APK
-    - name: Sign APK
+     - name: Sign APK
       uses: r0adkll/sign-android-release@v1
       # ID used to access action output
       id: sign_app
@@ -40,7 +40,7 @@ jobs:
         keyPassword: ${{ secrets.KEY_PASSWORD }}
 
         #Upload APK
-    - name: Upload APK
+     - name: Upload APK
       uses: actions/upload-artifact@v1
       with:
         name: apk
