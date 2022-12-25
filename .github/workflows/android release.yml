@@ -13,15 +13,34 @@ jobs:
    steps:
      - name: Checkout
        uses: actions/checkout@v2.4.0
+
+       # Setup APK
+
      - name: Setup JDK
        uses: actions/setup-java@v2.5.0
        with:
          distribution: adopt
          java-version: "11"
+    
      - name: Set execution flag for gradlew
        run: chmod +x gradlew
+       #BUILD APK
+
      - name: Build APK
        run: bash ./gradlew assembleDebug --stacktrace
+
+       # Sign Release APK
+     - name: Sign Release APK
+        uses: r0adkll/sign-android-release@v1
+        id: sign_app
+        with:
+          releaseDirectory: app/build/outputs/apk/release/
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.SIGNING_ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
+
+        #Upload APK
      - name: Upload APK
        uses: actions/upload-artifact@v1
        with:
