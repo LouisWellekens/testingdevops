@@ -1,4 +1,4 @@
-name: Continuous Integration Android 
+name: Android CI
 
 on:
   workflow_dispatch:
@@ -75,7 +75,6 @@ jobs:
 
   build_debug_apk:
     name: Building Debug APK
-#     needs: [emulator_test]
     runs-on: ubuntu-latest
     needs: [unit_tests]
     steps:
