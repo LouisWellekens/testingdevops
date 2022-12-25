@@ -20,9 +20,9 @@ jobs:
          distribution: adopt
          java-version: "11"
     
-    - name: Set execution flag for gradlew
-      run: chmod +x gradlew
-      #BUILD APK
+     - name: Set execution flag for gradlew
+       run: chmod +x gradlew
+       #BUILD APK
 
      - name: Build APK
       run: bash ./gradlew assembleDebug --stacktrace
