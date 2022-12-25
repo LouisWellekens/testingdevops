@@ -1,19 +1,22 @@
-name: Build and Release
+name: Continuous Deployment Android
 
 on:
   push:
     branches: [ master ]
   workflow_dispatch:
 
+env:
+  JAVA_VERSION: 11
+  
 
 jobs:
-  apk:
+  build_release_apk:
     name: Build Release APK
     runs-on: ubuntu-latest
     steps:
       # Checkout Repository
-      - name: Checkout Repository
-        uses: actions/checkout@v2  
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
       # Set up JDK 11 & Restore Gradle Cache
       - name: Setup JDK 11
@@ -22,29 +25,18 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: 'adopt'
           cache: gradle
-    
-     - name: Set execution flag for gradlew
-       run: chmod +x gradlew
-       #BUILD APK
 
-     - name: Build APK
-       run: bash ./gradlew assembleDebug --stacktrace
+      # Build Release APK
+      - name: Build Release APK
+        run: ./gradlew assembleRelease --stacktrace
 
-       # Sign Release APK
-     - name: Sign APK
-       uses: r0adkll/sign-android-release@v1
-      # ID used to access action output
-       id: sign_app
-       with:
-         releaseDirectory: app/build/outputs/apk/release
-         signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-         alias: ${{ secrets.ALIAS }}
+      # Sign Release APK
+      - name: Sign Release APK
+        uses: r0adkll/sign-android-release@v1
+        id: sign_app
+        with:
+          releaseDirectory: app/build/outputs/apk/release/
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.SIGNING_ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-        keyPassword: ${{ secrets.KEY_PASSWORD }}
-
-        #Upload APK
-     - name: Upload APK
-       uses: actions/upload-artifact@v1
-       with:
-         name: apk
-         path: app/build/outputs/apk/debug/app-debug.apk
+          keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
